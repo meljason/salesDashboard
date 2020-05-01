@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Sales_data;
+use App\Charts\ProvinceSalesChart;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -24,8 +26,20 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $sales = Sales_data::all();
+        //get data from database for the table
+        // $salesData = DB::table('sales_data')->paginate(10);
 
-        return view('dashboard');
+        $salesData = Sales_data::all();       
+
+        //pluck data from database (cust_city and grand_total)
+        $sales = Sales_data::pluck('grand_total', 'cust_city');
+        
+
+        $provinceSales = new ProvinceSalesChart();
+
+        $provinceSales->labels($sales->keys());
+        $provinceSales->dataset('Total Sales by Province', 'bar', $sales->values());
+
+        return view('dashboard', compact('provinceSales', 'salesData'));
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,4 @@ Auth::routes();
 
 Route::get('/', 'DashboardController@index');
 Route::get('/dashboard', 'DashboardController@index');
+
