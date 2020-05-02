@@ -16,6 +16,12 @@ use Illuminate\Support\Facades\DB;
 
 Auth::routes();
 
+Route::get('/allyears', 'DashboardController@index')->name('allyears');
+Route::get('/2016', 'DashboardController@index')->name('2016');
+Route::get('/2017', 'DashboardController@index')->name('2017');
+Route::get('/2018', 'DashboardController@index')->name('2018');
+
+Route::get('/search', 'DashboardController@search');
 Route::get('/', 'DashboardController@index');
 Route::get('/dashboard', 'DashboardController@index');
 
