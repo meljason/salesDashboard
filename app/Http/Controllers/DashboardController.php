@@ -56,13 +56,25 @@ class DashboardController extends Controller
         $allYearlySales->labels($allYearSales->keys());
         $allYearlySales->dataset('Total Sales', 'line', $allYearSales->values());
 
-        return view('dashboard', compact('yearlySales2018', 'yearlySales2017', 'yearlySales2016', 'allYearlySales', 'salesData'));
+        //Totals
+        $grandTotalSales = DB::table('sales_data')->sum('grand_total');
+        $totalShipping = DB::table('sales_data')->sum('shipping');
+        $totalTax = DB::table('sales_data')->sum('tax');
+
+        //Top sales based on city.
+        $topCitySales = DB::table('sales_data')
+                                    ->groupBy(DB::raw('cust_city'))
+                                    ->orderByRaw('sum(grand_total) desc')
+                                    ->take(1)
+                                    ->pluck('cust_city')
+                                    ->first();
+                        
+        return view('dashboard', compact('yearlySales2018', 'yearlySales2017', 'yearlySales2016', 'allYearlySales', 'salesData', 'grandTotalSales', 'totalShipping', 'totalTax', 'topCitySales'));
     }
 
     public function search(Request $request) {
         $search = $request->get('search');
-        $sales = DB::table('sales_data')
-                            ->where('id', 'like', '%'.$search.'%')->paginate(5);
+        $sales = DB::table('sales_data')->where('id', 'like', '%'.$search.'%')->paginate(5);
                             
         
         return view('dashboard', compact('sales'));
