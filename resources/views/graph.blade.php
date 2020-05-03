@@ -53,7 +53,7 @@
         <div class="col-6">
             <div class="card" style="height: 35rem">
                 <div class="card-header">
-                    Total Sales by Customer
+                    Number of orders in Provinces
                 </div>
                 <div class="card-body">
                     {!! $customerLocation->container() !!}

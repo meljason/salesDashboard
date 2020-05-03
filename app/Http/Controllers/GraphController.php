@@ -49,26 +49,69 @@ class GraphController extends Controller
         }
         //----------TAX & SHIPPING BY DATE --------------------------------------------        
         if (url()->current() == route('2016')) {
-            $taxData = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2016')->orderBy('purchase_date')
-                                            ->pluck('tax', 'purchase_date');
-            $shippingData = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2016')->orderBy('purchase_date')
-                                            ->pluck('shipping', 'purchase_date');
+            $monthData = Sales_data::selectRaw('MONTHNAME(purchase_date) as month')
+                                            ->where(DB::raw('YEAR(purchase_date)'), '=', '2016')
+                                            ->groupBy(DB::raw('month(purchase_date)'))
+                                            ->orderBy('purchase_date')
+                                            ->get()
+                                            ->pluck('month');
+            $taxData = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2016')
+                                            ->groupBy(DB::raw('month(purchase_date)'))
+                                            ->orderBy('purchase_date')
+                                            ->get()
+                                            ->pluck('tax');
+
+            $shippingData = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2016')
+                                            ->groupBy(DB::raw('month(purchase_date)'))
+                                            ->orderBy('purchase_date')
+                                            ->pluck('shipping');
         } else if (url()->current() == route('2017')) {
-            $taxData = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2017')->orderBy('purchase_date')
-                                            ->pluck('tax', 'purchase_date');
-            $shippingData = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2017')->orderBy('purchase_date')
-                                                ->pluck('shipping', 'purchase_date');
+            $monthData = Sales_data::selectRaw('MONTHNAME(purchase_date) as month')
+                                            ->where(DB::raw('YEAR(purchase_date)'), '=', '2017')
+                                            ->groupBy(DB::raw('month(purchase_date)'))
+                                            ->orderBy('purchase_date')
+                                            ->get()
+                                            ->pluck('month');
+            $taxData = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2017')
+                                            ->groupBy(DB::raw('month(purchase_date)'))
+                                            ->orderBy('purchase_date')
+                                            ->get()->pluck('tax');
+
+            $shippingData = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2017')
+                                            ->groupBy(DB::raw('month(purchase_date)'))
+                                            ->orderBy('purchase_date')
+                                            ->pluck('shipping');
         } else if (url()->current() == route('2018')) {
-            $taxData = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2018')->orderBy('purchase_date')
-                                            ->pluck('tax', 'purchase_date');
-            $shippingData = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2018')->orderBy('purchase_date')
-                                            ->pluck('shipping', 'purchase_date');
+            $monthData = Sales_data::selectRaw('MONTHNAME(purchase_date) as month')
+                                            ->where(DB::raw('YEAR(purchase_date)'), '=', '2018')
+                                            ->groupBy(DB::raw('month(purchase_date)'))
+                                            ->orderBy('purchase_date')
+                                            ->get()
+                                            ->pluck('month');
+            $taxData = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2018')
+                                            ->groupBy(DB::raw('month(purchase_date)'))
+                                            ->orderBy('purchase_date')
+                                            ->get()->pluck('tax');
+
+            $shippingData = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2018')
+                                            ->groupBy(DB::raw('month(purchase_date)'))
+                                            ->orderBy('purchase_date')
+                                            ->pluck('shipping');
         } else {
-            $taxData = Sales_data::orderBy('purchase_date')
-                                            ->pluck('tax', 'purchase_date');
-            $shippingData = Sales_data::orderBy('purchase_date')
-                                            ->pluck('shipping', 'purchase_date');
+            $monthData = Sales_data::selectRaw('MONTHNAME(purchase_date) as month')
+                                            ->groupBy(DB::raw('month(purchase_date)'))
+                                            ->orderBy('purchase_date')
+                                            ->get()
+                                            ->pluck('month');
+            $taxData = Sales_data::groupBy(DB::raw('month(purchase_date)'))
+                                            ->orderBy('purchase_date')
+                                            ->pluck('tax');
+
+            $shippingData = Sales_data::groupBy(DB::raw('month(purchase_date)'))
+                                            ->orderBy('purchase_date')
+                                            ->pluck('shipping');
         }
+
 
         //-----------TOTAL SALES BY CITY------------------------------------------------
         $cityLocationData = Sales_data::pluck('grand_total', 'cust_city');
@@ -81,6 +124,8 @@ class GraphController extends Controller
         $customerSale = Sales_data::select(DB::raw('sum(grand_total) as total_sales'), DB::raw('cust_fname'))->groupBy('cust_fname')->get()->pluck('total_sales', 'cust_fname');
 
         
+        //=================================================================
+
         //new chart object for Total Orders per product
         $productSales = new ProductSalesChart();
         $productSales->displayAxes(false);
@@ -92,11 +137,11 @@ class GraphController extends Controller
         //new chart object for tax and shipping by date
         $taxShipping = new TaxShippingChart();
 
-        $taxShipping->labels($taxData->keys());
+        $taxShipping->labels($monthData->values());
         $taxShipping->dataset('Tax by Time', 'bar', $taxData->values())
                     ->backgroundColor('red');
         
-        $taxShipping->labels($shippingData->keys());
+        $taxShipping->labels($monthData->values());
         $taxShipping->dataset('Shipping by Time', 'line', $shippingData->values())
                     ->backgroundColor('rgba(0,0,0, .4)');
         
@@ -113,9 +158,10 @@ class GraphController extends Controller
 
         //new chart object for total customer by location (province)
         $customerLocation = new CustomerLocationChart();
+        $customerLocation->displayAxes(false);
         $customerLocation->labels($customerLocationData->keys());
         $customerLocation->dataset('Number of Customer', 'polarArea', $customerLocationData->values())
-                        ->backgroundColor(collect($colors));
+                    ->backgroundColor(collect($colors));
         
         //new chart object for total sales by customer
         $customerSalesChart = new CustomerSalesChart();
@@ -123,10 +169,7 @@ class GraphController extends Controller
 
         $customerSalesChart->labels($customerSale->keys());
         $customerSalesChart->dataset('Total sales by customer', 'doughnut', $customerSale->values())
-                        ->backgroundColor(collect($colors));
-
-        
-        
+                    ->backgroundColor(collect($colors)); 
 
         return view('graph', compact('productSales', 'taxShipping', 'locationSales', 'customerSalesChart', 'customerLocation'));
     }

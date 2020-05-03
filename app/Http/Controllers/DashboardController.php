@@ -33,28 +33,71 @@ class DashboardController extends Controller
         
         //get data for column with sortable including pagination
         $salesData = Sales_data::sortable()->paginate(356);
+        
+        if(url()->current() == route('sales2016')) {
+            $monthData = Sales_data::selectRaw('MONTHNAME(purchase_date) as month')
+                                    ->where(DB::raw('YEAR(purchase_date)'), '=', '2016')
+                                    ->groupBy(DB::raw('month(purchase_date)'))
+                                    ->orderBy('purchase_date')
+                                    ->get()
+                                    ->pluck('month');
+            
+            $grandSalesData = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2016')
+                                    ->groupBy(DB::raw('month(purchase_date)'))
+                                    ->orderBy('purchase_date')
+                                    ->get()
+                                    ->pluck('grand_total');
+        } else if (url()->current() == route('sales2017')) {
+            $monthData = Sales_data::selectRaw('MONTHNAME(purchase_date) as month')
+                                    ->where(DB::raw('YEAR(purchase_date)'), '=', '2017')
+                                    ->groupBy(DB::raw('month(purchase_date)'))
+                                    ->orderBy('purchase_date')
+                                    ->get()
+                                    ->pluck('month');
+        
+            $grandSalesData = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2017')
+                                    ->groupBy(DB::raw('month(purchase_date)'))
+                                    ->orderBy('purchase_date')
+                                    ->get()
+                                    ->pluck('grand_total');
+        } else if (url()->current() == route('sales2018')) {
+            $monthData = Sales_data::selectRaw('MONTHNAME(purchase_date) as month')
+                                    ->where(DB::raw('YEAR(purchase_date)'), '=', '2018')
+                                    ->groupBy(DB::raw('month(purchase_date)'))
+                                    ->orderBy('purchase_date')
+                                    ->get()
+                                    ->pluck('month');
+        
+            $grandSalesData = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2018')
+                                    ->groupBy(DB::raw('month(purchase_date)'))
+                                    ->orderBy('purchase_date')
+                                    ->get()
+                                    ->pluck('grand_total');
+        } else {
+            $monthData = Sales_data::selectRaw('MONTHNAME(purchase_date) as month')
+                                    ->groupBy(DB::raw('month(purchase_date)'))
+                                    ->orderBy('purchase_date')
+                                    ->get()
+                                    ->pluck('month');
+        
+            $grandSalesData = Sales_data::groupBy(DB::raw('month(purchase_date)'))
+                                    ->orderBy('purchase_date')
+                                    ->get()
+                                    ->pluck('grand_total');
+        }
 
-        //pluck data from database (cust_city and grand_total)
-        $sales2018 = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2018')->orderBy('purchase_date')->pluck('grand_total', 'purchase_date');
-        $sales2017 = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2017')->orderBy('purchase_date')->pluck('grand_total', 'purchase_date');
-        $sales2016 = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2016')->orderBy('purchase_date')->pluck('grand_total', 'purchase_date');
-        $allYearSales = Sales_data::orderBy('purchase_date')->pluck('grand_total', 'purchase_date');
+        $yearlySales = new YearlySalesChart();
+        $yearlySales->labels($monthData->values());
 
-        $yearlySales2018 = new YearlySalesChart();
-        $yearlySales2018->labels($sales2018->keys());
-        $yearlySales2018->dataset('Total Sales 2018', 'line', $sales2018->values());
-
-        $yearlySales2017 = new YearlySalesChart();
-        $yearlySales2017->labels($sales2017->keys());
-        $yearlySales2017->dataset('Total Sales 2017', 'line', $sales2017->values());
-
-        $yearlySales2016 = new YearlySalesChart();
-        $yearlySales2016->labels($sales2016->keys());
-        $yearlySales2016->dataset('Total Sales 2016', 'line', $sales2016->values());
-
-        $allYearlySales = new YearlySalesChart();
-        $allYearlySales->labels($allYearSales->keys());
-        $allYearlySales->dataset('Total Sales', 'line', $allYearSales->values());
+        if(url()->current() == route('sales2018')) {
+            $yearlySales->dataset('Total Sales 2018 ($)', 'line', $grandSalesData->values());
+        } else if(url()->current() == route('sales2017')) {
+            $yearlySales->dataset('Total Sales 2017', 'line', $grandSalesData->values());
+        } else if(url()->current() == route('sales2016')) {
+            $yearlySales->dataset('Total Sales 2016 ($)', 'line', $grandSalesData->values());
+        } else {
+            $yearlySales->dataset('Total Sales ($)', 'line', $grandSalesData->values());
+        }
 
         //Totals
         $grandTotalSales = DB::table('sales_data')->sum('grand_total');
@@ -69,10 +112,7 @@ class DashboardController extends Controller
                                     ->pluck('cust_city')
                                     ->first();
                         
-        return view('dashboard', compact('yearlySales2018', 
-                                        'yearlySales2017', 
-                                        'yearlySales2016', 
-                                        'allYearlySales', 
+        return view('dashboard', compact('yearlySales', 
                                         'salesData', 
                                         'grandTotalSales', 
                                         'totalShipping', 

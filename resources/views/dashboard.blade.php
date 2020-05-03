@@ -81,7 +81,7 @@
                         Select Year
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="/allyears">All Years</a>
+                        <a class="dropdown-item" href="/">All Years</a>
                         <a class="dropdown-item" href="/2016">2016</a>
                         <a class="dropdown-item" href="/2017">2017</a>
                         <a class="dropdown-item" href="/2018">2018</a>
@@ -89,23 +89,9 @@
                 </div>
 
                 <div class="card-body">
-                    @if(url()->current() == route('2016'))
-                        {!! $yearlySales2016->container() !!}
+                    {!! $yearlySales->container() !!}
 
-                        {!! $yearlySales2016->script() !!}
-                    @elseif(url()->current() == route('2017'))
-                        {!! $yearlySales2017->container() !!}
-
-                        {!! $yearlySales2017->script() !!}
-                    @elseif(url()->current() == route('2018'))
-                        {!! $yearlySales2018->container() !!}
-
-                        {!! $yearlySales2018->script() !!}
-                    @else
-                        {!! $allYearlySales->container() !!}
-
-                        {!! $allYearlySales->script() !!}
-                    @endif
+                    {!! $yearlySales->script() !!}
                 </div>
             </div>
             
