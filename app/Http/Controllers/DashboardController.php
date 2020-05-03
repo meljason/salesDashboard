@@ -69,7 +69,15 @@ class DashboardController extends Controller
                                     ->pluck('cust_city')
                                     ->first();
                         
-        return view('dashboard', compact('yearlySales2018', 'yearlySales2017', 'yearlySales2016', 'allYearlySales', 'salesData', 'grandTotalSales', 'totalShipping', 'totalTax', 'topCitySales'));
+        return view('dashboard', compact('yearlySales2018', 
+                                        'yearlySales2017', 
+                                        'yearlySales2016', 
+                                        'allYearlySales', 
+                                        'salesData', 
+                                        'grandTotalSales', 
+                                        'totalShipping', 
+                                        'totalTax', 
+                                        'topCitySales'));
     }
 
     public function search(Request $request) {

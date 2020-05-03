@@ -21,7 +21,14 @@ Route::get('/2016', 'DashboardController@index')->name('2016');
 Route::get('/2017', 'DashboardController@index')->name('2017');
 Route::get('/2018', 'DashboardController@index')->name('2018');
 
-Route::get('/search', 'DashboardController@search');
 Route::get('/', 'DashboardController@index');
 Route::get('/dashboard', 'DashboardController@index');
+Route::get('/search', 'DashboardController@search');
+
+Route::get('/graphs', 'GraphController@index');
+Route::get('/graphs/taxshipping/2016', 'GraphController@index')->name('2016');
+Route::get('/graphs/taxshipping/2017', 'GraphController@index')->name('2017');
+Route::get('/graphs/taxshipping/2018', 'GraphController@index')->name('2018');
+
+
 
