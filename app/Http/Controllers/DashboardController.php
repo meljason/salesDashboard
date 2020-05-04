@@ -85,19 +85,19 @@ class DashboardController extends Controller
 
         if (url()->current() == route('sales2018')) {
             $yearlySales->dataset('Total Sales 2018 ($)', 'line', $grandSalesData->values())
-                                ->backgroundColor('rgba(47,64,80, .8)')
+                                ->backgroundColor('rgba(140,217,201, .6)')
                                 ->color('rgba(41,56,70)');
         } else if (url()->current() == route('sales2017')) {
             $yearlySales->dataset('Total Sales 2017', 'line', $grandSalesData->values())
-                                ->backgroundColor('rgba(140,217,201, .8)')
+                                ->backgroundColor('rgba(140,217,201, .6)')
                                 ->color('rgba(41,56,70)');
         } else if (url()->current() == route('sales2016')) {
             $yearlySales->dataset('Total Sales 2016 ($)', 'line', $grandSalesData->values())
-                                ->backgroundColor('rgba(140,217,201, .8)')
+                                ->backgroundColor('rgba(140,217,201, .6)')
                                 ->color('rgba(41,56,70)');
         } else {
             $yearlySales->dataset('Total Sales ($)', 'line', $grandSalesData->values())
-                                ->backgroundColor('rgba(140,217,201, .8)')
+                                ->backgroundColor('rgba(140,217,201, .6)')
                                 ->color('rgba(41,56,70)');
         }
 
