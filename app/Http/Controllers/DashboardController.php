@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Sales_data;
 use App\Charts\YearlySalesChart;
+use App\Sales_data;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
-
+use App\Traits\Nicolaslopezj\Searchable\SearchableTrait;
 
 class DashboardController extends Controller
 {
@@ -28,75 +28,77 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        //get data from database for the table
-        // $salesTable = DB::table('sales_data');
-        
         //get data for column with sortable including pagination
         $salesData = Sales_data::sortable()->paginate(356);
-        
-        if(url()->current() == route('sales2016')) {
+
+        if (url()->current() == route('sales2016')) {
             $monthData = Sales_data::selectRaw('MONTHNAME(purchase_date) as month')
-                                    ->where(DB::raw('YEAR(purchase_date)'), '=', '2016')
-                                    ->groupBy(DB::raw('month(purchase_date)'))
-                                    ->orderBy('purchase_date')
-                                    ->get()
-                                    ->pluck('month');
-            
+                ->where(DB::raw('YEAR(purchase_date)'), '=', '2016')
+                ->groupBy(DB::raw('month(purchase_date)'))
+                ->orderBy('purchase_date')
+                ->get()
+                ->pluck('month');
             $grandSalesData = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2016')
-                                    ->groupBy(DB::raw('month(purchase_date)'))
-                                    ->orderBy('purchase_date')
-                                    ->get()
-                                    ->pluck('grand_total');
+                ->groupBy(DB::raw('month(purchase_date)'))
+                ->orderBy('purchase_date')
+                ->get()
+                ->pluck('grand_total');
         } else if (url()->current() == route('sales2017')) {
             $monthData = Sales_data::selectRaw('MONTHNAME(purchase_date) as month')
-                                    ->where(DB::raw('YEAR(purchase_date)'), '=', '2017')
-                                    ->groupBy(DB::raw('month(purchase_date)'))
-                                    ->orderBy('purchase_date')
-                                    ->get()
-                                    ->pluck('month');
-        
+                ->where(DB::raw('YEAR(purchase_date)'), '=', '2017')
+                ->groupBy(DB::raw('month(purchase_date)'))
+                ->orderBy('purchase_date')
+                ->get()
+                ->pluck('month');
             $grandSalesData = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2017')
-                                    ->groupBy(DB::raw('month(purchase_date)'))
-                                    ->orderBy('purchase_date')
-                                    ->get()
-                                    ->pluck('grand_total');
+                ->groupBy(DB::raw('month(purchase_date)'))
+                ->orderBy('purchase_date')
+                ->get()
+                ->pluck('grand_total');
         } else if (url()->current() == route('sales2018')) {
             $monthData = Sales_data::selectRaw('MONTHNAME(purchase_date) as month')
-                                    ->where(DB::raw('YEAR(purchase_date)'), '=', '2018')
-                                    ->groupBy(DB::raw('month(purchase_date)'))
-                                    ->orderBy('purchase_date')
-                                    ->get()
-                                    ->pluck('month');
-        
+                ->where(DB::raw('YEAR(purchase_date)'), '=', '2018')
+                ->groupBy(DB::raw('month(purchase_date)'))
+                ->orderBy('purchase_date')
+                ->get()
+                ->pluck('month');
             $grandSalesData = Sales_data::where(DB::raw('YEAR(purchase_date)'), '=', '2018')
-                                    ->groupBy(DB::raw('month(purchase_date)'))
-                                    ->orderBy('purchase_date')
-                                    ->get()
-                                    ->pluck('grand_total');
+                ->groupBy(DB::raw('month(purchase_date)'))
+                ->orderBy('purchase_date')
+                ->get()
+                ->pluck('grand_total');
         } else {
             $monthData = Sales_data::selectRaw('MONTHNAME(purchase_date) as month')
-                                    ->groupBy(DB::raw('month(purchase_date)'))
-                                    ->orderBy('purchase_date')
-                                    ->get()
-                                    ->pluck('month');
-        
+                ->groupBy(DB::raw('month(purchase_date)'))
+                ->orderBy('purchase_date')
+                ->get()
+                ->pluck('month');
             $grandSalesData = Sales_data::groupBy(DB::raw('month(purchase_date)'))
-                                    ->orderBy('purchase_date')
-                                    ->get()
-                                    ->pluck('grand_total');
+                ->orderBy('purchase_date')
+                ->get()
+                ->pluck('grand_total');
         }
 
+        //new object for sales chart
         $yearlySales = new YearlySalesChart();
         $yearlySales->labels($monthData->values());
 
-        if(url()->current() == route('sales2018')) {
-            $yearlySales->dataset('Total Sales 2018 ($)', 'line', $grandSalesData->values());
-        } else if(url()->current() == route('sales2017')) {
-            $yearlySales->dataset('Total Sales 2017', 'line', $grandSalesData->values());
-        } else if(url()->current() == route('sales2016')) {
-            $yearlySales->dataset('Total Sales 2016 ($)', 'line', $grandSalesData->values());
+        if (url()->current() == route('sales2018')) {
+            $yearlySales->dataset('Total Sales 2018 ($)', 'line', $grandSalesData->values())
+                                ->backgroundColor('rgba(47,64,80, .8)')
+                                ->color('rgba(41,56,70)');
+        } else if (url()->current() == route('sales2017')) {
+            $yearlySales->dataset('Total Sales 2017', 'line', $grandSalesData->values())
+                                ->backgroundColor('rgba(140,217,201, .8)')
+                                ->color('rgba(41,56,70)');
+        } else if (url()->current() == route('sales2016')) {
+            $yearlySales->dataset('Total Sales 2016 ($)', 'line', $grandSalesData->values())
+                                ->backgroundColor('rgba(140,217,201, .8)')
+                                ->color('rgba(41,56,70)');
         } else {
-            $yearlySales->dataset('Total Sales ($)', 'line', $grandSalesData->values());
+            $yearlySales->dataset('Total Sales ($)', 'line', $grandSalesData->values())
+                                ->backgroundColor('rgba(140,217,201, .8)')
+                                ->color('rgba(41,56,70)');
         }
 
         //Totals
@@ -106,25 +108,17 @@ class DashboardController extends Controller
 
         //Top sales based on city.
         $topCitySales = DB::table('sales_data')
-                                    ->groupBy(DB::raw('cust_city'))
-                                    ->orderByRaw('sum(grand_total) desc')
-                                    ->take(1)
-                                    ->pluck('cust_city')
-                                    ->first();
-                        
-        return view('dashboard', compact('yearlySales', 
-                                        'salesData', 
-                                        'grandTotalSales', 
-                                        'totalShipping', 
-                                        'totalTax', 
-                                        'topCitySales'));
-    }
+            ->groupBy(DB::raw('cust_city'))
+            ->orderByRaw('sum(grand_total) desc')
+            ->take(1)
+            ->pluck('cust_city')
+            ->first();
 
-    public function search(Request $request) {
-        $search = $request->get('search');
-        $sales = DB::table('sales_data')->where('id', 'like', '%'.$search.'%')->paginate(5);
-                            
-        
-        return view('dashboard', compact('sales'));
+        return view('dashboard', compact('yearlySales',
+            'salesData',
+            'grandTotalSales',
+            'totalShipping',
+            'totalTax',
+            'topCitySales'));
     }
 }

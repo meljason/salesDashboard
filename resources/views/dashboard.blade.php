@@ -97,19 +97,7 @@
             
         </div>
     </div>
-    <div class="row justify-content-end pb-3 pr-3">
-        <div class="col-sm-3">
-            <form action="/search" method="get">
-                <div class="input-group">
-                    <input type="search" name="search" class="form-control">
-                    <span class="input-group-prepend">
-                        <button type="submit" class="btn btn-dark">Search</button>
-                    </span>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="row justify-content-center tableFixHead table-responsive">
+    <div class="row justify-content-center tableFixHead table-responsive" id="scrollbar">
         <div class="col">
             <table class="table table-striped">
                 <thead class="thead-dark">
@@ -128,24 +116,25 @@
                         <th scope="col">@sortablelink('grand_total','Grand Total', ['filter' => 'active, visible'], ['class' => 'text-light'])</th>
                     </tr>
                 </thead>
-                    <tbody>
-                        @foreach ($salesData as $data)
-                            <tr>
-                                <th>{{$data->id}}</th>
-                                <th>{{$data->order_id}}</th>
-                                <th>{{date('Y-m-d', strtotime($data->purchase_date))}}</th>
-                                <th>{{$data->po_number}}</th>
-                                <th>{{$data->cust_fname}}</th>
-                                <th>{{$data->cust_order}}</th>
-                                <th>{{$data->cust_city}}</th>
-                                <th>{{$data->cust_country}}</th>
-                                <th>{{$data->cust_province}}</th>
-                                <th>{{$data->currency}}</th>
-                                <th>{{$data->tax}}</th>
-                                <th>{{$data->grand_total}}</th>
-                            </tr>
-                        @endforeach
-                    </tbody>
+                <tbody>
+                    @foreach ($salesData as $data)
+                        <tr>
+                            <td>{{$data->id}}</td>
+                            <td>{{$data->order_id}}</td>
+                            <td>{{date('Y-m-d', strtotime($data->purchase_date))}}</td>
+                            <td>{{$data->po_number}}</td>
+                            <td>{{$data->cust_fname}}</td>
+                            <td>{{$data->cust_fname}}</td>
+                            <td>{{$data->cust_city}}</td>
+                            <td>{{$data->cust_country}}</td>
+                            <td>{{$data->cust_province}}</td>
+                            <td>{{$data->currency}}</td>
+                            <td>{{$data->tax}}</td>
+                            <td>{{$data->grand_total}}</td>
+                        </tr>
+                    @endforeach
+                       
+                </tbody>
             </table>
         </div>
     </div>
