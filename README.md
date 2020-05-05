@@ -10,3 +10,7 @@ Laravel 7.9.2
 
 ## Home Page
 ![alt text](https://github.com/meljason/salesDashboard/blob/master/public/images/homepage.jpg "Home Page")
+
+### Graph Page
+![alt text](https://github.com/meljason/salesDashboard/blob/master/public/images/graphs.JPG "Home Page")
+
