@@ -8,7 +8,7 @@ Laravel 7.9.2
 1. Chart.Js for chart generation
 2. Bootstrap 4
 
-## Home Page
+### Home Page
 ![alt text](https://github.com/meljason/salesDashboard/blob/master/public/images/homepage.jpg "Home Page")
 
 ### Graph Page
