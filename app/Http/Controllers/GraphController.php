@@ -141,28 +141,28 @@ class GraphController extends Controller
 
         if (url()->current() == route('2016')) {
             $taxShipping->dataset('Tax ($) 2016', 'bar', $taxData->values())
-                        ->backgroundColor('red');
-            
+                        ->backgroundColor('#89D0F0');
+    
             $taxShipping->dataset('Shipping ($) 2016', 'line', $shippingData->values())
-                        ->backgroundColor('rgba(0,0,0, .4)');
+                        ->backgroundColor('rgba(184,226,242, .4)');
         } else if (url()->current() == route('2017')) {
             $taxShipping->dataset('Tax ($) 2017', 'bar', $taxData->values())
-                        ->backgroundColor('red');
+                        ->backgroundColor('#89D0F0');
             
             $taxShipping->dataset('Shipping ($) 2017', 'line', $shippingData->values())
-                        ->backgroundColor('rgba(0,0,0, .4)');
+                        ->backgroundColor('rgba(184,226,242, .4)');
         } else if (url()->current() == route('2018')) {
             $taxShipping->dataset('Tax ($) 2018', 'bar', $taxData->values())
-                        ->backgroundColor('red');
+                        ->backgroundColor('#89D0F0');
             
             $taxShipping->dataset('Shipping ($) 2018', 'line', $shippingData->values())
-                        ->backgroundColor('rgba(0,0,0, .4)');
+                        ->backgroundColor('rgba(184,226,242, .4)');
         } else {
             $taxShipping->dataset('Tax ($)', 'bar', $taxData->values())
-                        ->backgroundColor('red');
+                        ->backgroundColor('#89D0F0');
             
             $taxShipping->dataset('Shipping ($)', 'line', $shippingData->values())
-                        ->backgroundColor('rgba(0,0,0, .4)');
+                        ->backgroundColor('rgba(184,226,242, .4)');
         } 
         
         //new chart object for total sales by location

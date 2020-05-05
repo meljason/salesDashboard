@@ -77,7 +77,7 @@
                 </div>
 
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle m-3 float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-success dropdown-toggle m-3 float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Select Year
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -121,7 +121,7 @@
                         <tr>
                             <td>{{$data->id}}</td>
                             <td>{{$data->order_id}}</td>
-                            <td>{{date('Y-m-d', strtotime($data->purchase_date))}}</td>
+                            <td>{{date('d-M-y', strtotime($data->purchase_date))}}</td>
                             <td>{{$data->po_number}}</td>
                             <td>{{$data->cust_fname}}</td>
                             <td>{{$data->cust_fname}}</td>

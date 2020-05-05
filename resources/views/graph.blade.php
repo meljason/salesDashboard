@@ -4,7 +4,7 @@
 <div class="container mw-100">
     <div class="row pb-4">
         <div class="col-6">
-            <div class="card" style="height: 35rem">
+            <div class="card" style="height: 40rem">
                 <div class="card-header">
                     Total Orders per Product
                 </div>
@@ -16,13 +16,13 @@
             </div>
         </div>
         <div class="col-6">
-            <div class="card" style="height: 35rem">
+            <div class="card" style="height: 40rem">
                 <div class="card-header">
                     Tax & Shipping By Date
                 </div>
                 <div class="card-body">
                     <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-success dropdown-toggle float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Select Year
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -32,15 +32,17 @@
                             <a class="dropdown-item" href="/graphs/taxshipping/2018">2018</a>
                         </div>
                     </div>
-                    {!! $taxShipping->container() !!}
-                    {!! $taxShipping->script() !!}
+                    <div class="p-3">  
+                        {!! $taxShipping->container() !!}
+                        {!! $taxShipping->script() !!}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="row pb-4">
         <div class="col-6">
-            <div class="card" style="height: 35rem">
+            <div class="card" style="height: 40rem">
                 <div class="card-header">
                     Total Sales by City & Province
                 </div>
@@ -51,7 +53,7 @@
             </div>
         </div>
         <div class="col-6">
-            <div class="card" style="height: 35rem">
+            <div class="card" style="height: 40rem">
                 <div class="card-header">
                     Number of orders in Provinces
                 </div>
