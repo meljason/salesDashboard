@@ -1,5 +1,5 @@
 # Sales Dashboard
-Sales dashboard is an admin-accessibled web application that is able to show charts in different forms. We also include data in tabular form.
+Sales dashboard is an admin-accessible web application that is able to show charts in different forms. We also include data in tabular form.
 
 ## Framework
 Laravel 7.9.2
