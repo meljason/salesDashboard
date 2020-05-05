@@ -9,4 +9,4 @@ Laravel 7.9.2
 2. Bootstrap 4
 
 ## Home Page
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Home Page")
+![alt text](https://github.com/meljason/salesDashboard/blob/master/public/images/homepage.jpg "Home Page")
