@@ -21,17 +21,25 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
+        <div id="mySidenav" class="sidenav">
+
+            <div>
+                <a href="/">Dashboard</a>
+                <a href="/graphs">Graphs</a>
+            </div>
+        </div>
+        <nav class="navbar navbar-expand-md navbar-light bg-dark shadow-sm">
             <div class="container mw-100">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Dashboard') }}
-                </a>
+                <span style="cursor:pointer" onclick="toggleNav();">
+                    <button class="btn btn-success mr-3"><i class="fas fa-bars"></button></i>
+                </span>
+                
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
+                    {{-- <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
                             <a class="nav-link" href="/">Home</a>
@@ -40,7 +48,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/graphs">Graphs</a>
                         </li>
-                    </ul>
+                    </ul> --}}
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -83,8 +91,22 @@
         </main>
     </div>
 
+
     <script src="https://kit.fontawesome.com/43a4d68c95.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
     <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <script>
+
+    function toggleNav() {
+        var sidenav = document.getElementById("mySidenav"), app = document.getElementById("app");
+
+        sidenav.style.width = sidenav.style.width == "250px" ? '0' : '250px';
+        app.style.marginLeft = app.style.marginLeft === "250px" ? '0' : '250px';
+    }
+
+    function myFunction(x) {
+        x.classList.toggle("change");
+    }
+    </script>
 </body>
 </html>
