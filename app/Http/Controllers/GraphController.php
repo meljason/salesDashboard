@@ -28,6 +28,7 @@ class GraphController extends Controller
         $orderCount = Sales_data::select(DB::raw('count(cust_order) as total_count'))->whereBetween('purchase_date', [$dateFrom, $dateTo])->orderByRaw('cust_order', 'asc')->groupBy('cust_order')->get()->take(10)->pluck('total_count');
         $custOrder = Sales_data::select('cust_order')->whereBetween('purchase_date', [$dateFrom, $dateTo])->orderByRaw('cust_order', 'asc')->groupBy('cust_order')->get()->take(10)->pluck('cust_order');
 
+        //Tests**
         // return $orderCount->values();
         // return $custOrder->values();
 

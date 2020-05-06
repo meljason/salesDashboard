@@ -28,9 +28,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        //get data for column with sortable including pagination
-        $salesData = Sales_data::sortable()->paginate(356);
+        //get data for column with sortable
+        $salesData = Sales_data::sortable()->get();
 
+        //condition to test if its going to that route
         if (url()->current() == route('sales2016')) {
             $monthData = Sales_data::selectRaw('MONTHNAME(purchase_date) as month')
                 ->where(DB::raw('YEAR(purchase_date)'), '=', '2016')

@@ -89,8 +89,8 @@
                 </div>
 
                 <div class="card-body">
+                    {{-- Rendering yearly sales chart --}}
                     {!! $yearlySales->container() !!}
-
                     {!! $yearlySales->script() !!}
                 </div>
             </div>
@@ -102,6 +102,7 @@
             <table class="table table-striped">
                 <thead class="thead-dark">
                     <tr>
+                        {{-- Including sortable links --}}
                         <th scope="col">@sortablelink('id', 'ID', ['filter' => 'active, visible'], ['class' => 'text-light'])</th>
                         <th scope="col">@sortablelink('order_id', 'Order ID', ['filter' => 'active, visible'], ['class' => 'text-light'])</th>
                         <th scope="col">@sortablelink('purchase_date','Purchase Date', ['filter' => 'active, visible'], ['class' => 'text-light'])</th>
@@ -112,11 +113,12 @@
                         <th scope="col">@sortablelink('cust_country','Country', ['filter' => 'active, visible'], ['class' => 'text-light'])</th>
                         <th scope="col">@sortablelink('cust_province','Province', ['filter' => 'active, visible'], ['class' => 'text-light'])</th>
                         <th scope="col">@sortablelink('currency','Currency', ['filter' => 'active, visible'], ['class' => 'text-light'])</th>
-                        <th scope="col">@sortablelink('tax','Tax', ['filter' => 'active, visible'], ['class' => 'text-light'])</th>
-                        <th scope="col">@sortablelink('grand_total','Grand Total', ['filter' => 'active, visible'], ['class' => 'text-light'])</th>
+                        <th scope="col">@sortablelink('tax','Tax ($)', ['filter' => 'active, visible'], ['class' => 'text-light'])</th>
+                        <th scope="col">@sortablelink('grand_total','Grand Total ($)', ['filter' => 'active, visible'], ['class' => 'text-light'])</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {{-- Fetch data in tabular format --}}
                     @foreach ($salesData as $data)
                         <tr>
                             <td>{{$data->id}}</td>

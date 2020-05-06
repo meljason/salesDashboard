@@ -9,8 +9,8 @@
                     Total Orders per Product
                 </div>
                 <div class="card-body">
+                    {{-- Render product sales chart --}}
                     {!! $productSales->container() !!}
-
                     {!! $productSales->script() !!}
                 </div>
             </div>
@@ -33,6 +33,7 @@
                         </div>
                     </div>
                     <div class="p-3">  
+                        {{-- Render tax and shipping chart --}}
                         {!! $taxShipping->container() !!}
                         {!! $taxShipping->script() !!}
                     </div>
@@ -47,6 +48,7 @@
                     Total Sales by City & Province
                 </div>
                 <div class="card-body">
+                    {{-- Render sales by location chart --}}
                     {!! $locationSales->container() !!}
                     {!! $locationSales->script() !!}
                 </div>
@@ -58,6 +60,7 @@
                     Number of orders in Provinces
                 </div>
                 <div class="card-body">
+                    {{-- Render customer by location chart --}}
                     {!! $customerLocation->container() !!}
                     {!! $customerLocation->script() !!}
                 </div>
@@ -71,6 +74,7 @@
                     Total Sales by Customer
                 </div>
                 <div class="card-body">
+                    {{-- Render cusstomer sales chart --}}
                     {!! $customerSalesChart->container() !!}
                     {!! $customerSalesChart->script() !!}
                 </div>
